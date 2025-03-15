@@ -12,6 +12,7 @@
     "elevenlabs": "^1.54.0",
     "install": "^0.13.0",
     "lucide-react": "^0.482.0",
+    "motion": "^12.5.0",
     "next": "15.2.2",
     "next-auth": "^4.24.11",
     "openai": "^4.87.3",

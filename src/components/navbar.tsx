@@ -28,7 +28,7 @@ export default function NavBar(){
 
     return (
         <div className="">
-            <div className="flex justify-between items-center text-center mt-10 md:mx-24 mx-10">
+            <div className="flex justify-between items-center text-center mt-10">
                 <div>
                     <h1 className="text-xl font-bold text-carbon-900">CracktheDEV</h1>
                 </div>
@@ -40,8 +40,8 @@ export default function NavBar(){
                     }
                 </div>
                 <div className="hidden md:flex gap-4">
-                    <Button title="Sign In" variants="default" onclick={() => alert("ada")}/>
-                    <Button title="Start Free trial" variants="primary" onclick={() => alert("adas")}/>
+                    <Button style="text-sm" title="Sign In" variants="default" onclick={() => alert("ada")}/>
+                    <Button style="text-sm" title="Start Free trial" variants="primary" onclick={() => alert("adas")}/>
                 </div>
                 <div className="flex md:hidden">
                     {
@@ -60,14 +60,14 @@ export default function NavBar(){
             </div>
             <div className="">
             {
-                !clickmenu && <div className="flex flex-col justify-center mx-10 mt-3 gap-5 ">
+                !clickmenu && <div className="flex flex-col justify-center mt-3 gap-5 ">
                     {
                         LinksArray.map((link, key) => (
                             <LinkTag title={link.title} src={link.src} key={key}/>
                         ))
                     }
-                    <Button title="Sign In" variants="default" onclick={() => alert("ada")}/>
-                    <Button title="Start Free trial" variants="primary" onclick={() => alert("adas")}/>
+                    <Button style="text-sm" title="Sign In" variants="default" onclick={() => alert("ada")}/>
+                    <Button style="text-sm" title="Start Free trial" variants="primary" onclick={() => alert("adas")}/>
                 </div>
             }
             </div>

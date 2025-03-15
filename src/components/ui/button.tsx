@@ -20,7 +20,7 @@ const styleVariants  =  {
 //     primary : "",
 //     lg : ""
 // }
-const defaultStyle = "text-sm cursor-pointer font-medium disabled:pointer-events-none transition-colors disabled:backdrop-blur-3xl inline-flex justify-center text-center items-center whitespace-nowrap p-2 rounded-md"
+const defaultStyle = " cursor-pointer font-medium disabled:pointer-events-none transition-colors disabled:backdrop-blur-3xl inline-flex justify-center text-center items-center whitespace-nowrap p-2 rounded-md"
 
 export default function Button ({title, variants, onclick, style, icon} : ButtonTypes) {
     return (
