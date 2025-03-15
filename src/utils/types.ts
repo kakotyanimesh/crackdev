@@ -6,3 +6,4 @@ export interface PropmpTypes {
 export interface TextPromptType {
     text : string
 }
+
