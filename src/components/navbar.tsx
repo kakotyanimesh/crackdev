@@ -30,7 +30,7 @@ export default function NavBar(){
         <div className="">
             <div className="flex justify-between items-center text-center mt-10">
                 <div>
-                    <h1 className="text-xl font-bold text-carbon-900">CracktheDEV</h1>
+                    <h1 className="text-xl font-bold">CracktheDEV</h1>
                 </div>
                 <div className="hidden md:flex flex-row gap-10">
                     {

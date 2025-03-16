@@ -1,6 +1,6 @@
 "use client"
 
-import { Play, ArrowRight, BrainCircuit, Code, Mic, BarChart3, icons } from 'lucide-react';
+import { BrainCircuit, Code, Mic, BarChart3 } from 'lucide-react';
 import Button from "./ui/button"
 import FeatureCard, { FeatureCardPropTypes } from "./ui/featureCard"
 import HomeCodeEditor from "./ui/homeCodeEditor"
@@ -8,6 +8,9 @@ import SimpleCard, { SimpleCardTypes } from './ui/simpleCard';
 import { useEffect, useState } from 'react';
 import InterviewFeatureDiv from './interviewFeaturediv';
 import PricingComponent from './pricingComponent';
+
+import TechBadge from './ui/TechBadge';
+import Cta from './cta';
 
 export default function HomePage () {
   const [activeCard, setActiveCard] = useState<number>(1)
@@ -58,7 +61,7 @@ export default function HomePage () {
                   <p className='md:text-xl text-sm text-slate-700'>
                     The only platform combining GPT-4 intelligence with real-time code execution + human-like voice interviews.
                   </p>
-                  <div className='grid-cols-1 space-y-2 md:grid-cols-2 space-x-20 '>
+                  <div className='flex md:flex-row flex-col space-y-2  space-x-20 '>
                     <Button style='md:text-xl' title='Start Free Trial' variants='primary' onclick={() => alert('adads')}/>
                     <Button style='md:text-xl' title='Watch Demo (2min)' variants='default' onclick={() => alert("no demo")}/>
                   </div>
@@ -92,9 +95,9 @@ export default function HomePage () {
                 ))
               }
             </div>
-            <div className='text-center'>
-            <Button title='Click to Get Started' variants='default' onclick={() => alert("ada")}/>
-            </div>
+              {/* <div className='w-96 flex justify-center text-center items-center'>
+                <Button title='Click to Get Started' variants='default' onclick={() => alert("ada")}/>
+              </div> */}
           </div>
           <div className='space-y-10'>
             <div className='text-center'>
@@ -103,13 +106,27 @@ export default function HomePage () {
             </div>
             <InterviewFeatureDiv />
           </div>
-          <div className='space-y-10 bg-gray-100 md:-mx-24 py-32 -mx-10 mb-30  md:px-24 px-10'>
+          <div className='space-y-10 bg-gray-100 md:-mx-24 py-32 -mx-10  md:px-24 px-10'>
             <div className='text-center'>
               <h1 className='md:text-4xl text-purple-900 text-3xl font-bold'>Plans for Every Career Stage</h1>
               <p className='md:text-lg text-sm text-slate-500'>Choose the plan that fits your needs and take your interview skills to the next level.</p>
             </div>
               <PricingComponent/>
           </div>
+          <div className="space-y-10 text-center">
+              <div className='space-y-4'>
+                <h1 className='md:text-4xl text-purple-900 text-3xl font-bold'>Powered by Advanced Technology</h1>
+                <p className='md:text-lg text-sm text-slate-500'>We have built CareerCypher with cutting-edge tools and platforms.</p>
+              </div>
+              <div className='flex flex-wrap justify-center gap-4'>
+                {
+                  TeachBageArray.map((t ,key ) => (
+                    <TechBadge title={t.title} key={key}/>
+                  ))
+                }
+              </div>
+          </div>
+          <Cta/>
         </div>
     )
 }
@@ -140,3 +157,20 @@ const FeaturesArray : FeatureCardPropTypes[] = [
 ]
 
 
+const TeachBageArray = [
+  {
+    title : "GPT-4o"
+  },
+  {
+    title : "99.9% Uptime"
+  },
+  {
+    title : "Gemini"
+  },
+  {
+    title : "leetcode premium question"
+  },
+  {
+    title : "I hate DSA"
+  }
+]

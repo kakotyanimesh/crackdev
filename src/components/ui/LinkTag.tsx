@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-interface LinkType {
+export interface LinkType {
     title : string,
     src :  string
 }

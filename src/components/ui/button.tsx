@@ -24,7 +24,7 @@ const defaultStyle = " cursor-pointer font-medium disabled:pointer-events-none t
 
 export default function Button ({title, variants, onclick, style, icon} : ButtonTypes) {
     return (
-        <button className={`${styleVariants[variants]} ${style} ${defaultStyle} `} onClick={onclick}>
+        <button className={`${styleVariants[variants]} ${style} ${defaultStyle} w-full`} onClick={onclick}>
             {icon}
             {title}
         </button>
