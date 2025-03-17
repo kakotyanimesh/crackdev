@@ -1,10 +1,20 @@
 import { ChatwithAi } from "@/lib/chatai";
+import rateLimitWithRedis from "@/lib/limitapicall";
 import { PropmpTypes } from "@/utils/types";
 import { NextResponse } from "next/server";
 
+const ratelimiterfn = rateLimitWithRedis({allowedApiReq : 10, duration : 5})
+
 export async function POST(req:Request) {
     try {
-        const {systemPrompt, userPrompt} : PropmpTypes = await req.json()
+        const ip = await req.headers.get("x-forwarded-for") || "anonymous"
+        // x-forwarded-for users ip address it has two parameters 
+
+        const limitCheck = await ratelimiterfn(ip)
+
+        if(limitCheck.status === 429){return NextResponse.json({msg : "Limit exceed of api call come back later"}, {status : 429})}
+
+         const {systemPrompt, userPrompt} : PropmpTypes = await req.json()
 
         if(!systemPrompt || !userPrompt){
             return NextResponse.json({

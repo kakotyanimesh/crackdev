@@ -6,6 +6,8 @@ interface ButtonTypes {
     variants : "primary" | "default"
     onclick : () => void
     icon ? : ReactNode,
+    processing ?: boolean,
+    processingText ? : string
     size ?: "secondary" | "lg" | "sm" | "primary"
 }
 
@@ -22,11 +24,15 @@ const styleVariants  =  {
 // }
 const defaultStyle = " cursor-pointer font-medium disabled:pointer-events-none transition-colors disabled:backdrop-blur-3xl inline-flex justify-center text-center items-center whitespace-nowrap p-2 rounded-md"
 
-export default function Button ({title, variants, onclick, style, icon} : ButtonTypes) {
+export default function Button ({title, variants, onclick, style, icon, processing, processingText} : ButtonTypes) {
     return (
         <button className={`${styleVariants[variants]} ${style} ${defaultStyle} w-full`} onClick={onclick}>
-            {icon}
-            {title}
+            {
+                processing ? <span className="animate-spin">⟳</span>: icon
+            }
+            {
+                processing ? processingText : title
+            }
         </button>
     )
 }

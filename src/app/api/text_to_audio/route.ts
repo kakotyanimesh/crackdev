@@ -1,9 +1,20 @@
 import { textToAudio } from "@/lib/audioai"
+import rateLimitWithRedis from "@/lib/limitapicall"
 import { NextResponse } from "next/server"
 
+
+const limiter = rateLimitWithRedis({allowedApiReq : 10, duration : 5})
 export async function POST(req:Request) {
+
     try {
+        const identifier = await req.headers.get("x-forwarded-for") || "anonymous"
+
+        const limitCheck = await limiter(identifier)
+
+        if(limitCheck.status === 429) {return NextResponse.json({msg : "limit exceed come back later"}, {status : 429})}
+
         const { text } = await req.json()
+
 
         if(!text || text.length === 0){
             return NextResponse.json({msg : "No text provided "}, {status : 400})
