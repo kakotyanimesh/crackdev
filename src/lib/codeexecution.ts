@@ -1,17 +1,17 @@
 import axios from "axios"
 
 
-interface JudgeZeroPropsType {
+export interface JudgeZeroPropsType {
     languageNumber : number,
-    codeData : string,
+    codeData : string, 
     customInputData : string
 }
 
 export default async function CodeExecution({languageNumber, codeData, customInputData} : JudgeZeroPropsType) {
     try {
         const formData = {
-            language_id : Number(languageNumber),
             source_code : btoa(codeData),
+            language_id : Number(languageNumber),
             stdin : btoa(customInputData)
         }
 

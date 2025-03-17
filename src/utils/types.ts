@@ -1,8 +1,8 @@
 
 
 export interface PropmpTypes {
-    systemPrompt : string,
-    userPrompt : string
+    userPrompt : string,
+    systemPrompt : string
 }
 
 export interface TextPromptType {

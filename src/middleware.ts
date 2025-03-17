@@ -39,7 +39,7 @@ export async function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-// Configure which routes the middleware should run on
+// Configure which routes the middleware should run on  
 export const config = {
   matcher: [
     // Match all routes except for _next, static, and public files

@@ -14,15 +14,20 @@ export async function POST(req:Request) {
 
         if(limitCheck.status === 429){return NextResponse.json({msg : "Limit exceed of api call come back later"}, {status : 429})}
 
-         const {systemPrompt, userPrompt} : PropmpTypes = await req.json()
+        const { userPrompt, systemPrompt} : PropmpTypes = await req.json()
 
-        if(!systemPrompt || !userPrompt){
+        // console.log(userPrompt);
+        // console.log(systemPrompt);
+        
+        
+
+        if(!userPrompt || !systemPrompt){
             return NextResponse.json({
                 msg : "no user prompt or system prompt provided"
             },{status : 400})
         }
 
-        const response = await ChatwithAi({systemPrompt, userPrompt})
+        const response = await ChatwithAi({ userPrompt, systemPrompt })
 
         if(!response){
             return NextResponse.json({

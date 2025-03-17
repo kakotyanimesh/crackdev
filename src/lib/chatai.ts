@@ -3,7 +3,7 @@ import { OpenAI } from "openai"
 
 
 
-export const ChatwithAi = async ({systemPrompt , userPrompt} : PropmpTypes) => {
+export const ChatwithAi = async ({systemPrompt, userPrompt} : PropmpTypes) => {
     try {
         const aichat = new OpenAI({
             baseURL : process.env.BASE_URL,
@@ -33,7 +33,12 @@ export const ChatwithAi = async ({systemPrompt , userPrompt} : PropmpTypes) => {
 
         let streamResponse = ""
         for await (const chunk of completion) {
-            streamResponse += chunk.choices[0].delta
+            // console.log(chunk.choices[0].delta);
+            if (!chunk.choices || !chunk.choices[0] || !chunk.choices[0].delta) {
+                console.error("Unexpected OpenAI response format:", chunk);
+                continue;
+            }
+            streamResponse += await chunk.choices[0].delta.content
         }
 
         if(!streamResponse){

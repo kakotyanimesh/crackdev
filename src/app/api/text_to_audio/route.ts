@@ -4,6 +4,7 @@ import { NextResponse } from "next/server"
 
 
 const limiter = rateLimitWithRedis({allowedApiReq : 10, duration : 5})
+
 export async function POST(req:Request) {
 
     try {
@@ -16,9 +17,12 @@ export async function POST(req:Request) {
         const { text } = await req.json()
 
 
-        if(!text || text.length === 0){
-            return NextResponse.json({msg : "No text provided "}, {status : 400})
-        }
+        if (!text || typeof text !== 'string' || text.trim().length === 0) {
+            return NextResponse.json(
+              { msg: "Invalid or missing text parameter" }, 
+              { status: 400 }
+            );
+          }
 
         const audioBuffer = await textToAudio(text)
 
@@ -31,7 +35,7 @@ export async function POST(req:Request) {
             status : 200,
             headers : {
                 "Content-Type" : "audio/mpeg",
-                "Content-Length" : audioBuffer.length.toLocaleString()
+                "Content-Length" : audioBuffer.length.toString()
             }
         })
     } catch (error) {

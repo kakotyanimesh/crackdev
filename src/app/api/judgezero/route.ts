@@ -4,11 +4,11 @@ import { NextResponse } from "next/server";
 
 
 const limit = rateLimitWithRedis({
-    allowedApiReq : 2, 
+    allowedApiReq : 10, 
     duration : 5
 })
 
-export default async function JudgeZero(req:Request) {
+export async function POST(req:Request) {
     try {
         const identifier = await req.headers.get("x-forwarded-for") || "anonymous"
 
