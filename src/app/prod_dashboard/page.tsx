@@ -1,27 +1,14 @@
 "use client"
 
-import SideBar from "@/components/sidebar";
+import WrapperComponet from "@/components/wrappercomponent";
 
-export default function ProdDashboard(){
+
+export default function Dashboard(){
     return (
-        <div className=" min-h-screen bg-slate-100 flex justify-between">
-            {/* Prod dash  */}
+        <WrapperComponet sidebarTitle="Dashboard">
             <div>
-                <SideBar/>
+                prdadad
             </div>
-            <div className=" min-h-screen">
-                adasdads
-                adasdads
-                adasdads
-                adasdads
-                adasdads
-                adasdads
-                adasdads
-                adasdads
-                adasdads
-                adasdads
-                adasdads
-            </div>
-        </div>
+        </WrapperComponet>
     )
 }

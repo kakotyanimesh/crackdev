@@ -45,4 +45,11 @@ ${judgeZeroRes}
 }
 
 
+
+
 export const systemPrompt = "You are a helpful coding mentor. You guide users to understand and solve their coding problems by providing hints, explanations, clarifying concepts, and suggesting approaches. Never provide complete solutions or write code for the user. Your goal is to empower them to find the answers themselves. Focus on breaking down problems into smaller, manageable steps and offering resources for further learning. If a user provides code, help them debug and understand it, but do not correct the code for them. If they ask for a specific function or code snippet, explain the underlying logic and principles, but do not write the code itself. Encourage experimentation and independent problem-solving.";
+
+
+export const gptPrompt = (currentProblemContent: string) => {
+   return `${systemPrompt}\nYou will be given a [New Problem] that you should paraphrase and return. Your paraphrased problem statement should be concise and informative. It should be a clear and accurate representation of the original problem statement. If you need example paraphrases, you can refer to the examples provided below. Below you can find the [example actual Problem Statement] and [example Paraphrased Problem Statement].\n[example actual Problem Statement]\n${currentProblemContent}\n\n[example Paraphrased Problem Statement]\nWrite a function to calculate the sum of numbers in an array while ignoring sections starting with a 7 and ending with the next 8.`
+}

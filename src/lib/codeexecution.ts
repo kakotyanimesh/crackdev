@@ -3,12 +3,15 @@ import axios from "axios"
 
 export interface JudgeZeroPropsType {
     languageNumber : number,
-    codeData : string, 
+    codeData : string | undefined, 
     customInputData : string
 }
 
 export default async function CodeExecution({languageNumber, codeData, customInputData} : JudgeZeroPropsType) {
     try {
+
+        if(!languageNumber || !codeData || !customInputData) return
+        
         const formData = {
             source_code : btoa(codeData),
             language_id : Number(languageNumber),
