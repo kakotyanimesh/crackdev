@@ -3,6 +3,7 @@ import Button from "@/components/ui/button";
 import CodeEditor from "@/components/ui/codeEditor";
 import SelectorComponent from "@/components/ui/selector";
 import { saveAndPlayAudio } from "@/lib/clientsidedb";
+import CovertTextToAudio from "@/lib/frontendAPIcalls/audioconvert";
 
 import { frontEndGptcall } from "@/lib/frontendAPIcalls/gptcodeResponse";
 import { Judge0 } from "@/lib/frontendAPIcalls/judgeZerocall";
@@ -63,14 +64,17 @@ export default function Dashboard() {
             // console.log(judge0res);
             
             
-            const gptCodeCheckPrompt = GptCodeCheckPrompt(userCode, JSON.stringify(judge0res.res), Questions )
+            const gptCodeCheckPrompt = await GptCodeCheckPrompt(userCode, JSON.stringify(judge0res.res), Questions )
             
             // console.log("code primpt" , gptCodeCheckPrompt);
             console.log("system", systemPrompt);
             
-            
-            //@ts-ignore
-            const gptres = await frontEndGptcall({userPrompt : gptCodeCheckPrompt, systemPrompt})
+            const gptres = await axios.post("api/gpt_text", {
+                userPrompt : gptCodeCheckPrompt,
+                systemPrompt
+            })
+
+            // const gptres = await frontEndGptcall({userPrompt : gptCodeCheckPrompt, systemPrompt})
             
             // console.log("gpt res ", gptres.msg );
 
@@ -79,7 +83,7 @@ export default function Dashboard() {
             //     systemPrompt
             // })
     
-            const audioInput = gptres.msg  
+            const audioInput = gptres.data.msg  
     
             // console.log(gptres.msg, "gpt res borrr");
             
@@ -94,6 +98,7 @@ export default function Dashboard() {
             })
 
             const audioBlob = new Blob([audio.data], {type : 'audio/mpeg'})
+            // const audioBlob = await CovertTextToAudio(audioInput)
             await saveAndPlayAudio(audioBlob)
             console.log("audio", audioBlob);
         } catch (error) {

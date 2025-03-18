@@ -1,13 +1,17 @@
-import { TextPromptType } from "@/utils/types";
+
 import axios from "axios";
 
-export default async function CovertTextToAudio ({text} : TextPromptType){
+export default async function CovertTextToAudio (text : string){
     try {
-        const res = await axios.post('api/text_to_audio', {
-            text : text
-        })
+        const audio = await axios.post("/api/text_to_audio", {
+            text : JSON.stringify({text})  
+            },{
+                responseType : 'arraybuffer'
+            })
 
-        return res.data
+        const audioBlob = new Blob([audio.data], {type : 'audio/mpeg'})
+
+        return audioBlob
     } catch (error) {
         throw new Error(`error at audio conversion ${error}`)
     }

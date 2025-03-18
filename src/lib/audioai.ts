@@ -1,4 +1,4 @@
-import { TextPromptType } from "@/utils/types";
+
 import { ElevenLabsClient } from "elevenlabs";
 
 export const textToAudio = async (text : string) => {
