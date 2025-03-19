@@ -20,7 +20,8 @@ export default function InterviewPage () {
                             <li key={k} className="text-slate-500">{i.title}</li>
                         ))
                     }
-                    <Button title="Start Interview" variants="primary" onclick={() => router.push("/interviewplayground")}/>
+                    <Button title="Start Interview" variants="primary" onclick={() => router.push("/mockinterview")}/>
+                    <Button title="Give audio access" variants="primary" onclick={() => router.push("/mockinterview")}/>
                 </div>
                 
             </div>

@@ -3,9 +3,6 @@ import Button from "@/components/ui/button";
 import CodeEditor from "@/components/ui/codeEditor";
 import SelectorComponent from "@/components/ui/selector";
 import { saveAndPlayAudio } from "@/lib/clientsidedb";
-import CovertTextToAudio from "@/lib/frontendAPIcalls/audioconvert";
-
-import { frontEndGptcall } from "@/lib/frontendAPIcalls/gptcodeResponse";
 import { Judge0 } from "@/lib/frontendAPIcalls/judgeZerocall";
 import { jsProblems, python_problems } from "@/utils/problemstatement";
 import { GptCodeCheckPrompt, systemPrompt } from "@/utils/prompt";

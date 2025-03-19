@@ -2,18 +2,15 @@
 import AiInterview from "@/components/aiInterview";
 import { motion } from "motion/react"
 import CodeEditor from "@/components/ui/codeEditor";
-import SelectCard from "@/components/ui/selecteCard";
-import SelectorComponent from "@/components/ui/selector";
 import WrapperComponet from "@/components/wrappercomponent";
 import { saveAndPlayAudio } from "@/lib/clientsidedb";
 import CovertTextToAudio from "@/lib/frontendAPIcalls/audioconvert";
 import { frontEndGptcall } from "@/lib/frontendAPIcalls/gptcodeResponse";
 import { Judge0 } from "@/lib/frontendAPIcalls/judgeZerocall";
 import { jsProblems, python_problems } from "@/utils/problemstatement";
-import { GptCodeCheckPrompt, systemPrompt } from "@/utils/prompt";
-import { button } from "motion/react-client";
+import { GptCodeCheckPrompt } from "@/utils/prompt";
 import { useEffect, useState } from "react";
-import { easeIn } from "motion";
+
 import Button from "@/components/ui/button";
 
 
@@ -75,7 +72,7 @@ export default function InterviewPlayGround () {
 
             const textprompt = GptCodeCheckPrompt(userCode, JSON.stringify(judgeZeroRes), mockquestion)
 
-            const gptRes = await frontEndGptcall({userPrompt : textprompt, systemPrompt : systemPrompt})
+            const gptRes = await frontEndGptcall(textprompt)
 
             const audioInput = gptRes.msg
 
@@ -95,17 +92,9 @@ export default function InterviewPlayGround () {
         }
     }
     return (
-        <WrapperComponet sidebarTitle="Interview">
+        <WrapperComponet sidebarTitle="Code Execution">
             <div className="px-10 pt-5 space-y-4 bg-slate-100">
             <div className="flex md:flex-row flex-col justify-between items-center  gap-10">
-                {/* <SelectorComponent title="Select Language" options={["JAVASCRIPT", "PYTHON"]} onchange={(value) => setCodeingLanguage(value)}/>
-                <SelectorComponent title="Select Question" options={codeingLanguage === "JAVASCRIPT" ? jsProblems.map((q) => q.name) : python_problems.map((p) => p.name)} onchange={handleMockQuestion}/>
-                <SelectorComponent title="Select Question" options={codeingLanguage === "JAVASCRIPT" ? jsProblems.map((q) => q.name) : python_problems.map((p) => p.name)} onchange={(value) => setMockquestion(value)}/>
-                <Button processing={processing} processingText={processingText} title="Run code" variants="primary" onclick={runCode} /> */}
-                {/* <SelectCard isSelect={true} props={["Javascript", "Python", "JAVA", "RUST"]} headingTitle="Select Language"/>
-                <SelectCard isSelect={false} props={codeingLanguage ===  "JAVASCRIPT" ? jsProblems.map((q) => q.name) : python_problems.map((q) => q.name)} headingTitle="Select Question"/> */}
-                {/* <Button processing={processing} processingText={processingText} title="Run code" variants="primary" onclick={runCode} /> */}
-
                 <div className="flex flex-col md:gap-5 px-5 py-4 bg-white shadow shadow-slate-300 rounded-md">
                     <h1 className="text-xl font-bold">Coding Language</h1>
                     <div className="grid md:grid-cols-3 grid-row-1 gap-4">

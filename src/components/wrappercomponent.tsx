@@ -7,7 +7,7 @@ import { ChevronLeft } from 'lucide-react';
 
 interface WrapperComponetPropsTypes {
     children : ReactNode,
-    sidebarTitle :  "Dashboard" | "Interview" | "Code Execution" | "Progress Analysis" | "Pricing" | "Settings" | "About Us"
+    sidebarTitle :  "Dashboard" | "Interview" |"Code Execution" | "Progress Analysis" | "Pricing" | "Settings" | "About Us"
 }
 
 export default function WrapperComponet({children, sidebarTitle} : WrapperComponetPropsTypes){

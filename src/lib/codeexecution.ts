@@ -10,7 +10,7 @@ export interface JudgeZeroPropsType {
 export default async function CodeExecution({languageNumber, codeData, customInputData} : JudgeZeroPropsType) {
     try {
 
-        if(!languageNumber || !codeData || !customInputData) return
+        if(!languageNumber || !codeData) return
         
         const formData = {
             source_code : btoa(codeData),

@@ -1,9 +1,8 @@
 import { ChatwithAi } from "@/lib/chatai";
 import rateLimitWithRedis from "@/lib/limitapicall";
-import { PropmpTypes } from "@/utils/types";
 import { NextResponse } from "next/server";
 
-const ratelimiterfn = rateLimitWithRedis({allowedApiReq : 10, duration : 5})
+const ratelimiterfn = rateLimitWithRedis({allowedApiReq : 20, duration : 5})
 
 export async function POST(req:Request) {
     try {
@@ -14,20 +13,20 @@ export async function POST(req:Request) {
 
         if(limitCheck.status === 429){return NextResponse.json({msg : "Limit exceed of api call come back later"}, {status : 429})}
 
-        const { userPrompt, systemPrompt} : PropmpTypes = await req.json()
+        const {prompt} = await req.json()
 
         // console.log(userPrompt);
         // console.log(systemPrompt);
         
         
 
-        if(!userPrompt || !systemPrompt){
+        if(!prompt){
             return NextResponse.json({
                 msg : "no user prompt or system prompt provided"
             },{status : 400})
         }
 
-        const response = await ChatwithAi({ userPrompt, systemPrompt })
+        const response = await ChatwithAi(prompt)
 
         if(!response){
             return NextResponse.json({

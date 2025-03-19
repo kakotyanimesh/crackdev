@@ -53,3 +53,62 @@ export const systemPrompt = "You are a helpful coding mentor. You guide users to
 export const gptPrompt = (currentProblemContent: string) => {
    return `${systemPrompt}\nYou will be given a [New Problem] that you should paraphrase and return. Your paraphrased problem statement should be concise and informative. It should be a clear and accurate representation of the original problem statement. If you need example paraphrases, you can refer to the examples provided below. Below you can find the [example actual Problem Statement] and [example Paraphrased Problem Statement].\n[example actual Problem Statement]\n${currentProblemContent}\n\n[example Paraphrased Problem Statement]\nWrite a function to calculate the sum of numbers in an array while ignoring sections starting with a 7 and ending with the next 8.`
 }
+
+export const initialSpeeach = (currentProblem : string) => {
+   return `
+   Welcome,! I'm your AI interviewer. Today, we'll be tackling the ${currentProblem} problem.  Please take a moment to review the problem statement, and let me know when you're ready to begin. I'll be here to guide you through the process and provide hints if needed. Let's get started!`
+}
+
+export const initialQuestionUserPrompt = `Generate a coding problem suitable for a junior software developer.  
+
+**Guidelines:**  
+1. The response must start directly with the problem statement, followed by an example input and its expected output.  
+2. Do not include introductions, explanations, or any extra words.  
+3. The response must contain only the question, an example input, and the expected output.  
+4. Do not include characters like *, undefined, null, or any unnecessary formatting.  
+5. Ensure the problem is clear and concise.  
+
+**Response Format (strict JSON):**  
+{
+    "question": "your question",
+    "input": "your generated input values"
+    "expected_output": "your generated expected output values "
+}
+    try to fetch some api for leetcode type questions 
+
+Ensure the response strictly follows this format and contains no extra text.
+`;
+
+
+
+export const systemPromptforQuestion = `You are an AI that generates coding problems for junior software developers. Your responses must be formatted as follows:
+1. A clear problem statement.
+2. At least one input example.
+3. The expected output.
+
+Strictly avoid introductions, explanations, or extra text. Your response should look like this:
+
+Write a function to reverse a string without using built-in methods.
+Example:
+input: "hello"
+expectedOutput: "olleh"`;
+
+
+export interface TestCaseProps {
+   question : string | undefined,
+   userCode : string | undefined
+}
+
+export const checkTestCasePrompt = ({ question, userCode }: TestCaseProps) => {
+   return `Given the following problem, input, expected output, and actual output from code execution, determine if the actual output matches the expected output.
+   A leetcode type question with its expected output and input is sending to you first check 
+   
+ Guidelines:
+   1. syntax is correct or wrong
+   2. Generate your own input and output for the problem ${question} and run the user code aginst your inputs check wheather the the user code ${userCode} is correct or wrong
+   3. if wrong returns "TEST CASES FAILS" 
+   4. if test cases passed return "TEST CASES PASSED"
+
+   5. The response must **only** contain the JSON object. Do not include explanations, extra words, or special characters like *, undefined, null, or markdown formatting.
+   6. The check must be case-sensitive and consider differences in data types.`
+}

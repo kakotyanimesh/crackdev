@@ -26,7 +26,6 @@ export default function SideBar({ title , minimize} : SideBarProps){
     const [showSideBar, setShowSideBar] = useState(true)
     const router = useRouter()
 
-    console.log(title);
     
 
     useEffect(() => {
@@ -78,7 +77,7 @@ export default function SideBar({ title , minimize} : SideBarProps){
 
 const sideBarArray  = [
     { name: 'Dashboard', icon: <LayoutDashboard className="h-5 w-5" />, path: '/prod_dashboard' },
-    { name: 'Code Execution', icon: <Code className="h-5 w-5" />, path: '/code-execution' },
+    { name: 'Code Execution', icon: <Code className="h-5 w-5" />, path: '/codeExecution' },
     { name: 'Interview', icon: <Mic className="h-5 w-5" />, path: '/interview' },
     { name: 'Progress Analytics', icon: <LineChart className="h-5 w-5" />, path: '/progress-analytics' },
     { name: 'Settings', icon: <SettingsIcon className="h-5 w-5" />, path: '/settings' },

@@ -1,8 +1,8 @@
-import { useState } from "react"
 
 
 
-interface SelectCardProps {
+
+export interface SelectCardProps {
     props : string[],
     headingTitle :string,
     isSelect : boolean

@@ -10,8 +10,16 @@ export default function CodeEditor({code , language, onchange} : CodeEditorProps
         onchange(value)
     }
     return (
-        <div className="overlay rounded-md overflow-hidden h-full shadow-4xl w-[75%] border-3 border-emerald-500">
-            <Editor language={language} value={code} onChange={handleCodeChange} height="80vh"/>
+        <div className="overlay rounded-md overflow-hidden h-[30vw] shadow-4xl w-[100%] border-1 pt-2">
+            <Editor theme="vs-light" language={language} value={code} onChange={handleCodeChange} options={{
+                    minimap: { enabled: false },
+                    fontSize: 14,
+                    scrollBeyondLastLine: false,
+                    automaticLayout: true,
+                    tabSize: 2,
+                    wordWrap: 'on',
+                    fontFamily: 'JetBrains Mono, monospace',
+                  }} height="80vh"/>
         </div>
     )
 }
