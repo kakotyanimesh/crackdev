@@ -21,7 +21,9 @@ export default function Dashboard() {
     const [userCode, setUserCode] = useState<string>("")
     
     const handleCn = (value : string | undefined) => {
-        setUserCode(value)
+        if (value !== undefined) {
+            setUserCode(value);
+        }
    }
 
 
