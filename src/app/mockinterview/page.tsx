@@ -1,14 +1,17 @@
 "use client"
+
 import AiInterview from "@/components/aiInterview";
 import AIresponseQuestion from "@/components/ui/airesponeQuestion";
 import Button from "@/components/ui/button";
 import CodeEditor from "@/components/ui/codeEditor";
 import SelectorComponent from "@/components/ui/selector";
 import WrapperComponet from "@/components/wrappercomponent";
+import { saveAndPlayAudio } from "@/lib/clientsidedb";
+import CovertTextToAudio from "@/lib/frontendAPIcalls/audioconvert";
 import { frontEndGptcall } from "@/lib/frontendAPIcalls/gptcodeResponse";
 import { parseGptResponse, parseTestCaseResponse } from "@/lib/frontendAPIcalls/parsedRes";
-import { checkTestCasePrompt, initialQuestionUserPrompt } from "@/utils/prompt";
-import { useEffect, useState } from "react";
+import { checkTestCasePrompt, finalPrompt, initialQuestionUserPrompt } from "@/utils/prompt";
+import { useEffect, useRef, useState } from "react";
 
 export default function MockInterview(){
     const [Language, setLanguage] = useState("JAVASCRIPT")
@@ -20,6 +23,10 @@ export default function MockInterview(){
     const [processing, setprocessingg] = useState(false)
     const [runningCodeState, setRunningCodeState] = useState(false)
     const [consoleResponse, setConsoleResponse] = useState<string | undefined>("")
+    const [audiotext, setaudiotext] = useState("")
+    const [messsageLogs, setMesssageLogs] = useState<{role : string, text : string | undefined}[]>([])
+    const [aispeadking, setAispeadking] = useState(false)
+    const preventAPIcall = useRef(false)
 
     const storeUserCode = (value : string | undefined) => {
         if(!value) return
@@ -27,6 +34,10 @@ export default function MockInterview(){
     }
 
     useEffect(() => {
+        if(preventAPIcall.current) return
+        preventAPIcall.current = true
+
+
       const initialPromptGeneration = async () => {
         try {
             setLoadingState(true)
@@ -39,7 +50,20 @@ export default function MockInterview(){
             setGptQuestions(question)
             setQuestionInputs(input)
             setQuestionOutput(expected_output)
+
+            const greetings = `Welcome dear! I'm your interviewer for today. Your first question is: ${question}. Try to solve it and click 'Run' to execute. Click 'Start Interview' for real-time AI audio interaction.`;
+
+
+
+            setMesssageLogs((prevLogs) => [...prevLogs, { role: "AI", text: greetings }])
+
+            const audioBlob = await CovertTextToAudio(greetings.trim())
+            setAispeadking(true)
+            console.log(greetings);
             
+            await saveAndPlayAudio(audioBlob)
+
+            setAispeadking(false)
 
         } catch (error) {
             console.log(`error while initiating interview process !! ${error}`);
@@ -51,9 +75,6 @@ export default function MockInterview(){
 
       initialPromptGeneration()
     
-      return () => {
-        // clearTimeout(timeout)
-      }
     }, [])
 
 
@@ -69,7 +90,17 @@ export default function MockInterview(){
             setQuestionInputs(input)
             setQuestionOutput(expected_output)
             
+            setMesssageLogs((prev) => [...prev, {role : "AI", text : gptQuestions}])
+
+            const newQuestionText = `Your new Question is ${gptQuestions}`
+
+            setAispeadking(true)
+            const audioBlob = await CovertTextToAudio(newQuestionText)
+
             
+            await saveAndPlayAudio(audioBlob)
+            
+            setAispeadking(false)
 
         } catch (error) {
             console.log(`error while initiating interview process !! ${error}`);
@@ -90,13 +121,12 @@ export default function MockInterview(){
 
             const testCasePrompt = checkTestCasePrompt({question : gptQuestions, userCode : userCode})
             const testCasesRes = await frontEndGptcall(testCasePrompt)
-
             const formatTestcaseRes = parseTestCaseResponse(testCasesRes)
-            console.log(formatTestcaseRes.msg);
+            // console.log(formatTestcaseRes.msg);
             
             setConsoleResponse(formatTestcaseRes.msg)
 
-
+            // an audio res needed here to told the user wheather their code runs successfully or not 
             
         } catch (error) {
             console.log(`error while running the code ${error}`);
@@ -107,6 +137,68 @@ export default function MockInterview(){
         }
     }
     
+
+    const userAudiotoText = async () => {
+        try {
+            const speechrecg = window.SpeechRecognition|| window.webkitSpeechRecognition
+
+            const recog = new speechrecg()
+            recog.continuous = true
+            recog.interimResults = true
+            recog.lang = "en-US"
+
+            recog.onresult = async (event) => {
+                let finalTranscript = ""
+
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if(event.results[i].isFinal){
+                        finalTranscript += event.results[i][0].transcript
+                    }                    
+                }
+
+                if (finalTranscript.length > 0) {
+                    setaudiotext(finalTranscript);
+                    // console.log(finalTranscript);
+                    // console.log(audiotext);
+
+                    setMesssageLogs((perv) => [...perv, {role : "User", text : finalTranscript }])
+
+                    const fullContext = messsageLogs.map((msg) => `${msg.role} : ${msg.text}`).join("\n")
+                    const promptFinal = finalPrompt({question : gptQuestions, fullContext : fullContext, userCode : userCode, currentSpeechInput : finalTranscript})
+                    setAispeadking(true)
+                    const aiResponse = await frontEndGptcall(promptFinal)
+
+                    const audioBlob = await CovertTextToAudio(aiResponse)
+
+                    await saveAndPlayAudio(audioBlob)
+                    
+                    setAispeadking(false)
+                }
+            }
+
+            recog.onend = () => {
+                // this is for continuous listening 
+                recog.start();
+            };
+            
+            recog.onerror = (event) => {
+                console.error(`Speech recognition error: ${event.error}`);
+            };
+
+            recog.start()
+            // console.log(recog);
+            
+        } catch (error) {
+            throw new Error(`erorr while talking with AI ${error}`)            
+        }
+    }
+
+    useEffect(() => {
+      console.log(audiotext);
+      
+    }, [audiotext])
+    
+
     if(loadingState){
         return (
             <div>
@@ -117,6 +209,19 @@ export default function MockInterview(){
 
     return (
         <WrapperComponet sidebarTitle="Interview">
+            {/* <div className="absolute bg-purple-500 p-10">
+                {
+                    aispeadking ? (
+                        <div className="">
+                            ai is speaking 
+                        </div>
+                    ) : (
+                        <div>
+                            ai is listening , please speak something if you want 
+                        </div>
+                    )
+                }
+            </div> */}
             <div className="flex flex-col space-y-10 ">
                 <div className="font-mono px-4">
                     <h1 className="text-xl font-bold">MOCK INTERVIEW </h1>
@@ -124,9 +229,10 @@ export default function MockInterview(){
                 </div>
                 <div className="flex flex-row gap-2 ml-2">
                     <div className="w-2/3 space-y-5 bg-white px-4 py-4 rounded-md border-1 border-slate-400">
-                        <div className="flex justify-between gap-48 ">
+                        <div className="flex justify-between gap-5 ">
                             <SelectorComponent title="Language" options={["JAVASCRIPT" , "PYTHON"]} onchange={(value) => setLanguage(value) } />
                             <Button title="Run code" processing={runningCodeState} processingText="Running the code " variants="primary" onclick={codeRun}/>  
+                            <Button title="start Audio Interview" variants="primary" onclick={userAudiotoText}/>
                         </div> 
                         <div className="w-full space-y-2">
                             <CodeEditor code="// write your code here " language={Language} onchange={storeUserCode}/>
@@ -148,7 +254,9 @@ export default function MockInterview(){
                             <AiInterview/>
                             <h1 className='text-center text-2xl font-mono font-bold'>SAM ALTMAN </h1>
                             <div className="font-mono">
-                                streaming .... chat ...
+                                {
+                                    aispeadking ? <h1>AI is SPEAKING ... </h1> : <h1>AI Is Listening ...</h1>
+                                }
                             </div>
                         </div>
                     </div>

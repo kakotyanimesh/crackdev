@@ -5,9 +5,10 @@ export const textToAudio = async (text : string) => {
     try {
         const elevenlabsClient = new ElevenLabsClient({apiKey : process.env.ELVENLEBS_API_KEY})
 
+        // const tex = text.trim().replace(/\u200B/g, "")
         const response = await elevenlabsClient.textToSpeech.convertAsStream("JBFqnCBsd6RMkjVDRZzb", {
             output_format : "mp3_44100_128",
-            text,
+            text : `\u200B${text}`,
             model_id : "eleven_multilingual_v2",
             // voice_settings: {
             //     stability: 0,

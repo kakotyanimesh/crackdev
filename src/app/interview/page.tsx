@@ -6,6 +6,15 @@ import { useRouter } from "next/navigation";
 
 export default function InterviewPage () {
     const router = useRouter()
+
+
+    const startInterview = () => {
+        const audio = new Audio("/silent.mp3")
+
+        audio.play().then(() => {
+            router.push("/mockinterview")
+        }).catch((err) => console.log("audio is blocked", err))
+    }
     return (
         <WrapperComponet sidebarTitle={"Interview"}>
             <div className="ml-10">
@@ -20,8 +29,8 @@ export default function InterviewPage () {
                             <li key={k} className="text-slate-500">{i.title}</li>
                         ))
                     }
-                    <Button title="Start Interview" variants="primary" onclick={() => router.push("/mockinterview")}/>
-                    <Button title="Give audio access" variants="primary" onclick={() => router.push("/mockinterview")}/>
+                    <Button title="Start Interview" variants="primary" onclick={startInterview}/>
+                    {/* <Button title="Give audio access" variants="primary" onclick={enableAudio}/> */}
                 </div>
                 
             </div>

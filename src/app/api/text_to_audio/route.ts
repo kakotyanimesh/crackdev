@@ -3,7 +3,7 @@ import rateLimitWithRedis from "@/lib/limitapicall"
 import { NextResponse } from "next/server"
 
 
-const limiter = rateLimitWithRedis({allowedApiReq : 10, duration : 5})
+const limiter = rateLimitWithRedis({allowedApiReq : 20, duration : 5})
 
 export async function POST(req:Request) {
 
