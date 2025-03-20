@@ -7,7 +7,7 @@ export default function Dashboard(){
     return (
         <WrapperComponet sidebarTitle="Dashboard">
             <div>
-                prdadad
+                click to interview to get started !!! 
             </div>
         </WrapperComponet>
     )
