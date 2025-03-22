@@ -201,8 +201,8 @@ export default function MockInterview(){
 
     if(loadingState){
         return (
-            <div>
-                loadign please wait
+            <div className="min-h-screen flex justify-center items-center text-center">
+                <h1 className="text-2xl text-purple-900 font-bold">Please wait while we fetching your questions...</h1>
             </div>
         )
     }
