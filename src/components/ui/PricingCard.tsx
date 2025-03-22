@@ -1,5 +1,6 @@
 import { CheckCircle2 } from "lucide-react"
 import Button from "./button"
+import { useRouter } from "next/navigation"
 
 export interface PricingCardTypes {
     title : string,
@@ -12,6 +13,7 @@ export interface PricingCardTypes {
 }
 
 export default function PricingCard ({title, desc, price, features, buttonTitle, buttonVarients, highlightedCardNumber} : PricingCardTypes) {
+    const router = useRouter()
     return (
         <div className={`relative border-2  rounded-md p-5 space-y-10 ${highlightedCardNumber === 2 ? "border-purple-600 shadow-md shadow-purple-400": "border-slate-300"}`}>
             {
@@ -34,7 +36,7 @@ export default function PricingCard ({title, desc, price, features, buttonTitle,
                 
             </div>
             <div className="">
-                <Button title={buttonTitle} variants={buttonVarients} onclick={() => alert("adas")}/>
+                <Button title={buttonTitle} variants={buttonVarients} onclick={() => router.push("/pricing")}/>
             </div>
         </div>
     )

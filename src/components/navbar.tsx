@@ -3,9 +3,12 @@ import { useState } from "react";
 import Button from "./ui/button";
 import { Menu, X } from 'lucide-react';
 import LinkTag from "./ui/LinkTag";
+import { useRouter } from "next/navigation";
 
 export default function NavBar(){
     const [clickmenu, setClickmenu] = useState<boolean>(true)
+
+    const router = useRouter()
 
     const LinksArray = [
         {
@@ -40,8 +43,8 @@ export default function NavBar(){
                     }
                 </div>
                 <div className="hidden md:flex gap-4">
-                    <Button style="text-sm" title="Sign In" variants="default" onclick={() => alert("ada")}/>
-                    <Button style="text-sm" title="Start Free trial" variants="primary" onclick={() => alert("adas")}/>
+                    <Button style="text-sm" title="Sign In" variants="default" onclick={() => router.push("/signin")}/>
+                    <Button style="text-sm" title="Start Free trial" variants="primary" onclick={() => router.push("/signin")}/>
                 </div>
                 <div className="flex md:hidden">
                     {
@@ -66,8 +69,8 @@ export default function NavBar(){
                             <LinkTag title={link.title} src={link.src} key={key}/>
                         ))
                     }
-                    <Button style="text-sm" title="Sign In" variants="default" onclick={() => alert("ada")}/>
-                    <Button style="text-sm" title="Start Free trial" variants="primary" onclick={() => alert("adas")}/>
+                    <Button style="text-sm" title="Sign In" variants="default" onclick={() => router.push("/signin")}/>
+                    <Button style="text-sm" title="Start Free trial" variants="primary" onclick={() => router.push("/signin")}/>
                 </div>
             }
             </div>

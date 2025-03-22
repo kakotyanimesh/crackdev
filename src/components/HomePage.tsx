@@ -11,10 +11,12 @@ import PricingComponent from './pricingComponent';
 
 import TechBadge from './ui/TechBadge';
 import Cta from './cta';
+import { useRouter } from 'next/navigation';
 
 export default function HomePage () {
   const [activeCard, setActiveCard] = useState<number>(1)
 
+  const router = useRouter()
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -64,8 +66,8 @@ export default function HomePage () {
                     The only platform combining GPT-4 intelligence with real-time code execution + human-like voice interviews.
                   </p>
                   <div className='flex md:flex-row flex-col space-y-2  space-x-20 '>
-                    <Button style='md:text-xl' title='Start Free Trial' variants='primary' onclick={() => alert('adads')}/>
-                    <Button style='md:text-xl' title='Watch Demo (2min)' variants='default' onclick={() => alert("no demo")}/>
+                    <Button style='md:text-xl' title='Start Free Trial' variants='primary' onclick={() => router.push("/signin")}/>
+                    <Button style='md:text-xl' title='Watch Demo (2min)' variants='default' onclick={() => router.push("/signin")}/>
                   </div>
                 </div>
                 <div>
