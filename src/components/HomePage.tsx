@@ -19,6 +19,8 @@ export default function HomePage () {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveCard(prev => (prev % 3) + 1)
+      // 2 % 3 => 2 
+      // 1 , 3 sec => 1 + 1 (2) , 3 sec 3, 3%3 (0) + 1 -> 2-> 3 ....
     }, 3000);
   
     return () => {

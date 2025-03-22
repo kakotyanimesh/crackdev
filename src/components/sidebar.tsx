@@ -14,7 +14,7 @@ import {
 import { useRouter } from "next/navigation";
 
 interface SideBarProps {
-    title : "Dashboard" | "Interview" | "Code Execution" | "Progress Analysis" | "Pricing" | "Settings" | "About Us"
+    title : "Dashboard" | "Interview" | "Code Execution" | "Progress Analysis" | "Pricing" | "Settings" | "About Us" | "FAQ & Support"
     minimize : boolean,
 
 
@@ -79,7 +79,7 @@ const sideBarArray  = [
     { name: 'Dashboard', icon: <LayoutDashboard className="h-5 w-5" />, path: '/prod_dashboard' },
     { name: 'Code Execution', icon: <Code className="h-5 w-5" />, path: '/codeExecution' },
     { name: 'Interview', icon: <Mic className="h-5 w-5" />, path: '/interview' },
-    { name: 'Progress Analytics', icon: <LineChart className="h-5 w-5" />, path: '/progress-analytics' },
+    { name: 'Progress Analytics', icon: <LineChart className="h-5 w-5" />, path: '/progress' },
     { name: 'Settings', icon: <SettingsIcon className="h-5 w-5" />, path: '/settings' },
     { name: 'FAQ & Support', icon: <HelpCircle className="h-5 w-5" />, path: '/faq' },
     { name: 'Pricing', icon: <CreditCard className="h-5 w-5" />, path: '/pricing' },

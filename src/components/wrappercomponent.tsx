@@ -3,16 +3,18 @@
 import SideBar from "@/components/sidebar";
 import { ReactNode, useEffect, useState } from "react";
 import { ChevronLeft } from 'lucide-react';
+import { useRouter } from "next/navigation";
 
 
 interface WrapperComponetPropsTypes {
     children : ReactNode,
-    sidebarTitle :  "Dashboard" | "Interview" |"Code Execution" | "Progress Analysis" | "Pricing" | "Settings" | "About Us"
+    sidebarTitle :  "Dashboard" | "Interview" |"Code Execution" | "Progress Analysis" | "Pricing" | "Settings" | "About Us" | "FAQ & Support"
 }
 
 export default function WrapperComponet({children, sidebarTitle} : WrapperComponetPropsTypes){
     const [mobileview, setMobileview] = useState(true)
     const [minimize, setminimize] = useState(true)
+    const router = useRouter()
 
     useEffect(() => {
       const mview = () => {
@@ -31,9 +33,11 @@ export default function WrapperComponet({children, sidebarTitle} : WrapperCompon
         <div className="space-y-5 min-h-screen bg-white flex flex-col ">
             <div className={`bg-white flex pt-5 pl-7 gap-10`}>
                 <div className={`flex ${minimize ? "gap-10" : "gap-2"}`}>
-                    <h1 className="text-xl font-bold ">
-                    {minimize && mobileview ? "CRACK THE DEV" : "CD"}
-                    </h1>
+                    <button onClick={() => router.push('/')} className="cursor-pointer">
+                        <h1 className="text-xl font-bold ">
+                        {minimize && mobileview ? "CRACK THE DEV" : "CD"}
+                        </h1>
+                    </button>
                     <button onClick={() => setminimize(!minimize)} className="cursor-pointer">
                         <ChevronLeft />
                     </button>
